@@ -50,6 +50,7 @@
       "http:",
       "http://",
       "http:foo.bar/",
+      "http://example.com#foo?bar"
     ];
     for (var i = 0; i < tests.length; i++)
     {
