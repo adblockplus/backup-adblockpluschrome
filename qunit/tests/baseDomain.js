@@ -73,22 +73,22 @@
         path: "",
         prePath: "http://example.com"
       }],
-      ["http://example.com?", {
+      ["http://example.com?foo#bar", {
         scheme: "http",
         host: "example.com",
         asciiHost: "example.com",
         hostPort: "example.com",
         port: -1,
-        path: "?",
+        path: "?foo#bar",
         prePath: "http://example.com"
       }],
-      ["http://example.com#", {
+      ["http://example.com#foo?bar", {
         scheme: "http",
         host: "example.com",
         asciiHost: "example.com",
         hostPort: "example.com",
         port: -1,
-        path: "#",
+        path: "#foo?bar",
         prePath: "http://example.com"
       }],
       ["http://example.com/", {
