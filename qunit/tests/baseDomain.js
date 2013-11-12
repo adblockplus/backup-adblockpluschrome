@@ -26,8 +26,6 @@
       [null, ""],
       ["/foo/bar", ""],
       ["http://example.com", "example.com"],
-      ["http://example.com?", "example.com"],
-      ["http://example.com#", "example.com"],
       ["http://example.com?foo#bar", "example.com"],
       ["http://example.com#foo?bar", "example.com"],
       ["http://example.com/", "example.com"],
