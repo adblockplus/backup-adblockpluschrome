@@ -28,7 +28,8 @@
       ["http://example.com", "example.com"],
       ["http://example.com?", "example.com"],
       ["http://example.com#", "example.com"],
-      ["http://example.com?query#frag", "example.com"],
+      ["http://example.com?foo#bar", "example.com"],
+      ["http://example.com#foo?bar", "example.com"],
       ["http://example.com/", "example.com"],
       ["http://example.com:8000/", "example.com"],
       ["http://foo:bar@example.com:8000/foo:bar/bas", "example.com"],
@@ -49,8 +50,7 @@
       "",
       "http:",
       "http://",
-      "http:foo.bar/",
-      "http://example.com#foo?bar"
+      "http:foo.bar/"
     ];
     for (var i = 0; i < tests.length; i++)
     {
