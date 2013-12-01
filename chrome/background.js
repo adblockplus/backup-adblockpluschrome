@@ -61,7 +61,7 @@
 
           listeners.splice(idx, 1);
 
-          if (listeners.length == 0)
+          if (listeners.length === 0)
             tab.onRemoved.removeListener(this._removeTab);
           else
           {
@@ -94,7 +94,7 @@
     {
       delete this._tabs[tab._id];
 
-      if (Object.keys(this._tabs).length == 0)
+      if (Object.keys(this._tabs).length === 0)
         this.removeListener(this._sharedListener);
     }
   };
@@ -147,7 +147,7 @@
         });
       };
     }
-  }
+  };
 
   var RemovedTabEventTarget = function()
   {
@@ -270,7 +270,8 @@
     clear: function()
     {
       for (var id in this._map)
-        this.delete(this._map[id].tab);
+        if (this._map.hasOwnProperty(id))
+          this.delete(this._map[id].tab);
     }
   };
   TabMap.prototype["delete"] = function(tab)
