@@ -162,7 +162,7 @@
   Window = function(win)
   {
     this._win = win;
-  }
+  };
   Window.prototype = {
     get visible()
     {
@@ -216,7 +216,7 @@
       },
       serialize: function(obj, objects, memo)
       {
-        if (typeof obj == "object" && obj != null || typeof obj == "function")
+        if (typeof obj == "object" && obj !== null || typeof obj == "function")
         {
           if (obj.constructor == Array)
           {
@@ -294,7 +294,8 @@
                 obj.push(this.deserialize(spec.items[i], objects, tab, memo));
             else
               for (var k in spec.properties)
-                obj[k] = this.deserialize(spec.properties[k], objects, tab, memo);
+                if(spec.properties.hasOwnProperty(k))
+                  obj[k] = this.deserialize(spec.properties[k], objects, tab, memo);
 
             return obj;
         }
