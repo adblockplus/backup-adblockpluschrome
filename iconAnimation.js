@@ -52,7 +52,7 @@ iconAnimation = {
     {
       this._getVisibleTabs(function(tabs)
       {
-        if (tabs.length == 0)
+        if (tabs.length === 0)
           return;
 
         for (var i = 0; i < tabs.length; i++)
@@ -91,24 +91,25 @@ iconAnimation = {
     {
       var tabs = [];
       var visibleWindows = windows.length;
+      var active = function(tab)
+      {
+        tabs.push(tab);
+
+        if (tabs.length == visibleWindows)
+          callback(tabs);
+      };
 
       for (var i = 0; i < windows.length; i++)
       {
         if (!windows[i].visible)
         {
-          if (--visibleWindows == 0)
+          if (--visibleWindows === 0)
             callback(tabs);
 
           continue;
         }
 
-        windows[i].getActiveTab(function(tab)
-        {
-          tabs.push(tab);
-
-          if (tabs.length == visibleWindows)
-            callback(tabs);
-        });
+        windows[i].getActiveTab(active);
       }
     });
   },
