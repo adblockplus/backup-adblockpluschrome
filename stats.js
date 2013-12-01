@@ -58,10 +58,13 @@
     var querystring = [];
     for (var key in params)
     {
-      var value = params[key];
-      if (value == messageMark)
-        value = i18n.getMessage("stats_share_message", blockedCount);
-      querystring.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+      if (params.hasOwnProperty(key))
+      {
+        var value = params[key];
+        if (value == messageMark)
+          value = i18n.getMessage("stats_share_message", blockedCount);
+        querystring.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+      }
     }
     return url + "?" + querystring.join("&");
   }
