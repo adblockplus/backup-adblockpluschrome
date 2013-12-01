@@ -50,12 +50,13 @@
       "http://",
       "http:foo.bar/"
     ];
-    for (var i = 0; i < tests.length; i++)
-    {
-      raises(function()
+    var tester = function()
       {
         return new URI(tests[i]);
-      }, tests[i]);
+      };
+    for (var i = 0; i < tests.length; i++)
+    {
+      raises(tester, tests[i]);
     }
   });
 
@@ -160,7 +161,8 @@
       var uri = new URI(url);
       equal(uri.spec, url, "URI(" + url + ").spec");
       for (var k in tests[i][1])
-        equal(uri[k], tests[i][1][k], "URI(" + url + ")." + k);
+        if (tests[i][1].hasOwnProperty(k))
+          equal(uri[k], tests[i][1][k], "URI(" + url + ")." + k);
     }
   });
 
