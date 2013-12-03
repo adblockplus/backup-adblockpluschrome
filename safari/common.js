@@ -70,7 +70,7 @@
     {
       return function(event)
       {
-        if (event.name.indexOf("request-") != 0)
+        if (event.name.indexOf("request-") !== 0)
           return;
 
         var sender = {};
@@ -190,23 +190,26 @@
 
         for (var placeholder in msg.placeholders)
         {
-          var placeholderDetails = msg.placeholders[placeholder];
-          if (!placeholderDetails || !placeholderDetails.content)
-            continue;
-          if (placeholderDetails.content.indexOf("$") != 0)
-            continue;
+          if (msg.placeholders.hasOwnProperty(placeholder))
+          {
+            var placeholderDetails = msg.placeholders[placeholder];
+            if (!placeholderDetails || !placeholderDetails.content)
+              continue;
+            if (placeholderDetails.content.indexOf("$") !== 0)
+              continue;
 
-          var placeholderIdx = parseInt(placeholderDetails.content.substr(1));
-          if (isNaN(placeholderIdx) || placeholderIdx < 1)
-            continue;
+            var placeholderIdx = parseInt(placeholderDetails.content.substr(1));
+            if (isNaN(placeholderIdx) || placeholderIdx < 1)
+              continue;
 
-          var placeholderValue;
-          if (Object.prototype.toString.call(substitutions) == "[object Array]")
-            placeholderValue = substitutions[placeholderIdx - 1];
-          else if (placeholderIdx == 1)
-            placeholderValue = substitutions;
+            var placeholderValue;
+            if (Object.prototype.toString.call(substitutions) == "[object Array]")
+              placeholderValue = substitutions[placeholderIdx - 1];
+            else if (placeholderIdx == 1)
+              placeholderValue = substitutions;
 
-          msgstr = msgstr.replace("$" + placeholder + "$", placeholderValue || "");
+            msgstr = msgstr.replace("$" + placeholder + "$", placeholderValue || "");
+          }
         }
 
         return msgstr;

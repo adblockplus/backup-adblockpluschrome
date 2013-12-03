@@ -70,7 +70,7 @@
       }
 
       if (typeof obj == "object" &&
-          obj != null &&
+          obj !== null &&
           obj.constructor != Date &&
           obj.constructor != RegExp)
       {
@@ -99,7 +99,8 @@
           spec.properties = {};
 
           for (var k in obj)
-            spec.properties[k] = this.serialize(obj[k], memo);
+            if (obj.hasOwnProperty(k))
+              spec.properties[k] = this.serialize(obj[k], memo);
         }
 
         return spec;

@@ -67,7 +67,7 @@ function addFilters()
   // Tell the background page to add the filters
   var filters = document.getElementById("filters").value.split(/[\r\n]+/)
                         .map(function(f) {return f.replace(/^\s+/, "").replace(/\s+$/, "");})
-                        .filter(function(f) {return f != "";});
+                        .filter(function(f) {return f !== "";});
   ext.backgroundPage.sendMessage({type: "add-filters", filters: filters});
   closeDialog(true);
 }

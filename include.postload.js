@@ -36,8 +36,8 @@ function highlightElements(selectorString) {
   
   var highlightedElements = document.querySelectorAll(selectorString);
   highlightedElementsSelector = selectorString;
-  highlightedElementsBoxShadows = new Array();
-  highlightedElementsBGColors = new Array();
+  highlightedElementsBoxShadows = [];
+  highlightedElementsBGColors = [];
 
   for(var i = 0; i < highlightedElements.length; i++) {
     highlightedElementsBoxShadows[i] = highlightedElements[i].style.getPropertyValue("-webkit-box-shadow");
@@ -50,7 +50,7 @@ function highlightElements(selectorString) {
 // Unhighlight all elements, including those that would be affected by
 // the proposed filters
 function unhighlightElements() {
-  if(highlightedElementsSelector == null)
+  if(highlightedElementsSelector === null)
     return;
   var highlightedElements = document.querySelectorAll(highlightedElementsSelector);
   for(var i = 0; i < highlightedElements.length; i++) {
@@ -130,19 +130,19 @@ function clickHide_showDialog(left, top, filters)
   {
     if (clickHideFiltersDialog)
       clickHideFiltersDialog.style.setProperty("opacity", "0.7");
-  }
+  };
   clickHideFiltersDialog.onmouseover = function()
   {
     if (clickHideFiltersDialog)
       clickHideFiltersDialog.style.setProperty("opacity", "1.0");
-  } 
+  };
   
   document.body.appendChild(clickHideFiltersDialog);
 }
 
 // Turn on the choose element to create filter thing
 function clickHide_activate() {
-  if(document == null)
+  if(document === null)
     return;
   
   // If we are already selecting, abort now
@@ -200,10 +200,13 @@ function clickHide_deactivate()
   document.removeEventListener("keyup", clickHide_keyUp, false);
   
   // Remove overlays
-  // For some reason iterating over the array returend by getElementsByClassName() doesn't work
+  // For some reason iterating over the array returned by getElementsByClassName() doesn't work
   var elt;
-  while(elt = document.querySelector('.__adblockplus__overlay'))
+  while(elt)
+  {
+    elt = document.querySelector('.__adblockplus__overlay');
     elt.parentNode.removeChild(elt);
+  }
 }
 
 function clickHide_elementClickHandler(ev) {
@@ -214,7 +217,7 @@ function clickHide_elementClickHandler(ev) {
 
 // Hovering over an element so highlight it
 function clickHide_mouseOver(e) {
-  if(clickHide_activated == false)
+  if(clickHide_activated === false)
     return;
 
   if(e.target.id || e.target.className || e.target.src) {
@@ -277,8 +280,8 @@ function clickHide_mouseClick(e) {
   if(elt.className) {
     elementClasses = elt.className.replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '').split(' ');
   }
-  clickHideFilters = new Array();
-  selectorList = new Array();
+  clickHideFilters = [];
+  selectorList = [];
   if(elementId) {
     clickHideFilters.push(document.domain + "###" + elementId);
     selectorList.push("#" + elementId);
@@ -392,7 +395,7 @@ function normalizeURL(url)
   if(!components)
     return url;
   var newPath = removeDotSegments(components[2]);
-  if(newPath.length == 0)
+  if(newPath.length === 0)
     return components[1];
   if(newPath[0] != '/')
     newPath = '/' + newPath;

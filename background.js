@@ -122,7 +122,7 @@ function refreshIconAndContextMenu(tab)
     // There is no grayscale version of the icon for whitelisted tabs
     // when using Safari, because icons are grayscale already and icons
     // aren't per tab in Safari.
-    iconFilename = "icons/abp-16.png"
+    iconFilename = "icons/abp-16.png";
   else
   {
     var excluded = isWhitelisted(tab.url);
@@ -160,7 +160,7 @@ function importOldData()
 
     var remove = [];
     for (var key in localStorage)
-      if (key.indexOf("patterns.ini") == 0 || key.indexOf("patterns-backup") == 0)
+      if (key.indexOf("patterns.ini") === 0 || key.indexOf("patterns-backup") === 0)
         remove.push(key);
     for (var i = 0; i < remove.length; i++)
       delete localStorage[remove[i]];
@@ -267,7 +267,7 @@ function showContextMenu()
 {
   chrome.contextMenus.removeAll(function()
   {
-    if(typeof localStorage["shouldShowBlockElementMenu"] == "string" && localStorage["shouldShowBlockElementMenu"] == "true")
+    if(typeof localStorage.shouldShowBlockElementMenu == "string" && localStorage.shouldShowBlockElementMenu == "true")
     {
       chrome.contextMenus.create({"title": chrome.i18n.getMessage("block_element"), "contexts": ["image", "video", "audio"], "onclick": function(info, tab)
       {
@@ -325,10 +325,10 @@ function showNotification(notification)
 {
   activeNotification = notification;
 
-  if (activeNotification.severity === "critical"
-      && typeof webkitNotifications !== "undefined")
+  if (activeNotification.severity === "critical" &&
+      typeof webkitNotifications !== "undefined")
   {
-    var notification = webkitNotifications.createHTMLNotification("notification.html");
+    notification = webkitNotifications.createHTMLNotification("notification.html");
     notification.show();
     notification.addEventListener("close", prepareNotificationIconAndPopup);
   }
@@ -399,7 +399,7 @@ ext.onMessage.addListener(function (msg, sender, sendResponse)
       if (filter instanceof BlockingFilter)
       {
         var collapse = filter.collapse;
-        if (collapse == null)
+        if (collapse === null)
           collapse = (localStorage.hidePlaceholders != "false");
         sendResponse(collapse);
       }
@@ -446,12 +446,13 @@ ext.onMessage.addListener(function (msg, sender, sendResponse)
 // Show icon as page action for all tabs that already exist
 ext.windows.getAll(function(windows)
 {
+  var refresh = function(tabs)
+  {
+    tabs.forEach(refreshIconAndContextMenu);
+  };
   for (var i = 0; i < windows.length; i++)
   {
-    windows[i].getAllTabs(function(tabs)
-    {
-      tabs.forEach(refreshIconAndContextMenu);
-    });
+    windows[i].getAllTabs(refresh);
   }
 });
 

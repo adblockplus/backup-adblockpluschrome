@@ -52,7 +52,8 @@ function preparePrefs()
 function restorePrefs()
 {
   for (var pref in this._pbackup)
-    Prefs[pref] = this._pbackup[pref];
+    if (this._pbackup.hasOwnProperty(pref))
+      Prefs[pref] = this._pbackup[pref];
 }
 
 function executeFirstRunActions()

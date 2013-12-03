@@ -93,7 +93,7 @@ function onMessage(msg)
     default:
       console.log("got unexpected message: " + msg.type);
   }
-};
+}
 
 // Reloads the displayed subscriptions and filters
 function reloadFilters()
@@ -155,7 +155,7 @@ function showUserFilters()
     {
       var filter = subscription.filters[j];
       if (filter instanceof WhitelistFilter && /^@@\|\|([^\/:]+)\^\$document$/.test(filter.text))
-        exceptions.push(RegExp.$1)
+        exceptions.push(RegExp.$1);
       else
         filters.push(filter.text);
     }
@@ -236,7 +236,7 @@ function loadRecommendations()
 function startSubscriptionSelection(title, url)
 {
   var list = document.getElementById("subscriptionSelector");
-  if (list.length == 0)
+  if (list.length === 0)
   {
     delayedSubscriptionSelection = [title, url];
     return;

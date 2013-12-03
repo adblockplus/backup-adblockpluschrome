@@ -40,7 +40,7 @@ FilterNotifier.addListener(function(action)
   if (action in importantNotifications)
   {
     // Execute delayed to prevent multiple executions in a quick succession
-    if (onFilterChangeTimeout != null)
+    if (onFilterChangeTimeout !== null)
       window.clearTimeout(onFilterChangeTimeout);
     onFilterChangeTimeout = window.setTimeout(onFilterChange, 2000);
   }
@@ -56,7 +56,7 @@ function onBeforeRequest(url, type, tab, frameId, parentFrameId)
   // Assume that the first request belongs to the top frame. Chrome may give the
   // top frame the type "object" instead of "main_frame".
   // https://code.google.com/p/chromium/issues/detail?id=281711
-  if (frameId == 0 && !frames.has(tab) && type == "object")
+  if (frameId === 0 && !frames.has(tab) && type == "object")
     type = "main_frame";
 
   if (type == "main_frame" || type == "sub_frame")
@@ -145,7 +145,7 @@ ext.webRequest.onBeforeRequest.addListener(onBeforeRequest, ["http://*/*", "http
 
 if (require("info").platform == "chromium")
 {
-  function onHeadersReceived(details)
+  onHeadersReceived = function(details)
   {
     if (details.tabId == -1)
       return;
@@ -201,7 +201,7 @@ if (require("info").platform == "chromium")
       if (verifySignature(key, signature, params.join("\0")))
         frames.get(tab)[details.frameId].keyException = true;
     }
-  }
+  };
 
   chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {urls: ["http://*/*", "https://*/*"]}, ["responseHeaders"]);
 }
