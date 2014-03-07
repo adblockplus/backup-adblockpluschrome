@@ -499,6 +499,9 @@ if (document.documentElement instanceof HTMLElement)
     });
   }, true);
 
+  if(!ext){
+    return;//prevent error when location was set via JS
+  }
   ext.onMessage.addListener(function(msg, sender, sendResponse)
   {
     switch (msg.type)
