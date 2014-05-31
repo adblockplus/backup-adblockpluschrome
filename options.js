@@ -477,8 +477,61 @@ function addTypedFilter(event)
   if (!filterText)
     return;
 
+  if (!validFilter(filterText)) {
+    $("#filterErrorWarning").css("display", "inline-block");
+    $("#filterErrorWarningCss").html("<p>" + filterText + "</p>");
+    return;
+  }
+
+  $("#filterErrorWarning").hide();
   FilterStorage.addFilter(Filter.fromText(filterText));
 }
+
+// Tests for whether a CSS rule can be added to a generated document. It is used to test whether a CSS selector is malformed in
+// its use of brackets, quotations, etc, but misses several other CSS selector mistakes that passesQuerySelector catches.
+function rulesForCssText (styleContent) {
+  var doc = document.implementation.createHTMLDocument(""),
+  var styleElement = document.createElement("style");
+
+  styleElement.textContent = styleContent;
+  // Trying to add the style to a document object will test whether the CSS selector is malformed.
+  doc.body.appendChild(styleElement);
+
+    return styleElement.sheet.cssRules;
+};
+
+// Finds whether querySelectorAll recognizes the given selector as valid. It misses several CSS selector mistakes such as misuse of
+// brackets and quotations that rulesForCSSTest catches.
+function passesQuerySelector(css) {
+  try {
+    document.querySelectorAll(css); 
+    return true;
+  }
+   catch(err) 
+    return false;
+}
+
+// Examines an adblock filter rule and if it contains a css Selector, returns whether that selector is valid. If no CSS selector is present it returns true.
+function validFilter(filter) {
+
+  if (filter.indexOf("##") != -1) {
+    var selector = filter.substr(filter.indexOf("##") + 2);
+      
+
+    // To test whether a css selector is valid, makes sure that it can be used with the query selector function and that it can be added to a 
+    // generated document's css. This seems to be the simplest way to catch most CSS errors.
+    if (passesQuerySelector(selector)) {
+
+      if (rulesForCssText(selector + " {}").length >= 1) 
+        return true;
+      else 
+        return false;
+    } else 
+      return false;
+  } else 
+    return true;
+}
+
 
 // Removes currently selected whitelisted domains
 function removeSelectedExcludedDomain()

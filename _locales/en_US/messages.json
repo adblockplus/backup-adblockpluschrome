@@ -67,6 +67,9 @@
     "description": "Popup balloon label to enable blocking",
     "message": "<strong>Enabled</strong> on this site"
   },
+  "filter_error": {
+    "message": "Your submitted filter contained an error in the CSS selector."
+  },  
   "filter_lists": {
     "description": "This is a tab heading.",
     "message": "Filter lists"
