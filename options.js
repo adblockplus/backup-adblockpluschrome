@@ -522,7 +522,7 @@ function passesQuerySelector(css) {
 function validFilter(filter) {
 
   // If there are no CSS selectors, the filter is considered valid.
-  if (filter.indexOf("##") != -1)
+  if (filter.indexOf("##") == -1)
     return true;
 
   var selector = filter.substr(filter.indexOf("##") + 2);
