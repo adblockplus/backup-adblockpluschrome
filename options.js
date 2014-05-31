@@ -489,7 +489,9 @@ function addTypedFilter(event)
 
 // Tests for whether a CSS rule can be added to a generated document. It is used to test whether a CSS selector is malformed in
 // its use of brackets, quotations, etc, but misses several other CSS selector mistakes that passesQuerySelector catches.
-function rulesForCssText (styleContent) {
+function passesCSSInsertion (selector) {
+
+  var styleContent = selector + " {}";
   var doc = document.implementation.createHTMLDocument(""),
   var styleElement = document.createElement("style");
 
@@ -497,7 +499,11 @@ function rulesForCssText (styleContent) {
   // Trying to add the style to a document object will test whether the CSS selector is malformed.
   doc.body.appendChild(styleElement);
 
-    return styleElement.sheet.cssRules;
+  // Check if the rule has been inserted to see whether the selector was valid or not.
+  if (styleElement.sheet.cssRules.length > 0)
+    return true;
+  else
+    return false;
 };
 
 // Finds whether querySelectorAll recognizes the given selector as valid. It misses several CSS selector mistakes such as misuse of
@@ -522,7 +528,7 @@ function validFilter(filter) {
     // generated document's css. This seems to be the simplest way to catch most CSS errors.
     if (passesQuerySelector(selector)) {
 
-      if (rulesForCssText(selector + " {}").length >= 1) 
+      if (passesCSSInsertion(selector)) 
         return true;
       else 
         return false;
