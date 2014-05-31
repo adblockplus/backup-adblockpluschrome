@@ -492,7 +492,7 @@ function addTypedFilter(event)
 function passesCSSInsertion (selector) {
 
   var styleContent = selector + " {}";
-  var doc = document.implementation.createHTMLDocument(""),
+  var doc = document.implementation.createHTMLDocument("");
   var styleElement = document.createElement("style");
 
   styleElement.textContent = styleContent;
@@ -513,8 +513,9 @@ function passesQuerySelector(css) {
     document.querySelectorAll(css); 
     return true;
   }
-   catch(err) 
+  catch(err) {
     return false;
+  }
 }
 
 // Examines an adblock filter rule and if it contains a css Selector, returns whether that selector is valid. If no CSS selector is present it returns true.
