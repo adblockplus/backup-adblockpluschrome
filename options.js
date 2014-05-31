@@ -502,8 +502,8 @@ function passesCSSInsertion (selector) {
   // Check if the rule has been inserted to see whether the selector was valid or not.
   if (styleElement.sheet.cssRules.length > 0)
     return true;
-  else
-    return false;
+
+  return false;
 };
 
 // Finds whether querySelectorAll recognizes the given selector as valid. It misses several CSS selector mistakes such as misuse of
@@ -521,22 +521,18 @@ function passesQuerySelector(css) {
 // Examines an adblock filter rule and if it contains a css Selector, returns whether that selector is valid. If no CSS selector is present it returns true.
 function validFilter(filter) {
 
-  if (filter.indexOf("##") != -1) {
-    var selector = filter.substr(filter.indexOf("##") + 2);
-      
-
-    // To test whether a css selector is valid, makes sure that it can be used with the query selector function and that it can be added to a 
-    // generated document's css. This seems to be the simplest way to catch most CSS errors.
-    if (passesQuerySelector(selector)) {
-
-      if (passesCSSInsertion(selector)) 
-        return true;
-      else 
-        return false;
-    } else 
-      return false;
-  } else 
+  // If there are no CSS selectors, the filter is considered valid.
+  if (filter.indexOf("##") != -1)
     return true;
+
+  var selector = filter.substr(filter.indexOf("##") + 2);
+
+  // To test whether a css selector is valid, makes sure that it can be used with the query selector function and that it can be added to a 
+  // generated document's css. This seems to be the simplest way to catch most CSS errors.
+  if (passesQuerySelector(selector) && passesCSSInsertion(selector))
+    return true;
+
+  return false;
 }
 
 
