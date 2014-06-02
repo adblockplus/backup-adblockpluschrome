@@ -477,7 +477,8 @@ function addTypedFilter(event)
   if (!filterText)
     return;
 
-  if (!validFilter(filterText)) {
+  if (!validFilter(filterText)) 
+  {
     $("#filterErrorWarning").css("display", "inline-block");
     $("#filterErrorWarningCss").html("<p>" + filterText + "</p>");
     return;
@@ -487,48 +488,63 @@ function addTypedFilter(event)
   FilterStorage.addFilter(Filter.fromText(filterText));
 }
 
-// Tests for whether a CSS rule can be added to a generated document. It is used to test whether a CSS selector is malformed in
-// its use of brackets, quotations, etc, but misses several other CSS selector mistakes that passesQuerySelector catches.
-function passesCSSInsertion (selector) {
+// Tests for whether a CSS rule can be added to a generated document. It is 
+// used to test whether a CSS selector is malformed in its use of brackets, 
+// quotations, etc, but misses several other CSS selector mistakes that 
+// passesQuerySelector catches.
 
+function passesCSSInsertion (selector) 
+{
   var styleContent = selector + " {}";
   var doc = document.implementation.createHTMLDocument("");
   var styleElement = document.createElement("style");
 
   styleElement.textContent = styleContent;
-  // Trying to add the style to a document object will test whether the CSS selector is malformed.
+
+  // Trying to add the style to a document object will test whether the 
+  // CSS selector is malformed.
   doc.body.appendChild(styleElement);
 
-  // Check if the rule has been inserted to see whether the selector was valid or not.
+  // Check if the rule has been inserted to see whether the selector was valid 
+  // or not.
   if (styleElement.sheet.cssRules.length > 0)
     return true;
 
   return false;
 };
 
-// Finds whether querySelectorAll recognizes the given selector as valid. It misses several CSS selector mistakes such as misuse of
-// brackets and quotations that rulesForCSSTest catches.
-function passesQuerySelector(css) {
-  try {
-    document.querySelectorAll(css); 
+// Finds whether querySelectorAll recognizes the given selector as valid. It 
+// misses several CSS selector mistakes such as misuse of brackets and 
+// quotations that rulesForCSSTest catches.
+function passesQuerySelector(css) 
+{
+  try 
+  {
+    document.querySelector(css); 
     return true;
   }
-  catch(err) {
+  catch(err) 
+  {
     return false;
   }
 }
 
-// Examines an adblock filter rule and if it contains a css Selector, returns whether that selector is valid. If no CSS selector is present it returns true.
-function validFilter(filter) {
+// Examines an adblock filter rule and if it contains a css Selector, returns 
+// whether that selector is valid. If no CSS selector is present it returns 
+// true.
+function validFilter(filter) 
+{
 
   // If there are no CSS selectors, the filter is considered valid.
-  if (filter.indexOf("##") == -1)
+  var selectorIndex = filter.indexOf("##");
+  if (selectorIndex == -1)
     return true;
 
-  var selector = filter.substr(filter.indexOf("##") + 2);
+  var selector = filter.substr(selectorIndex + 2);
 
-  // To test whether a css selector is valid, makes sure that it can be used with the query selector function and that it can be added to a 
-  // generated document's css. This seems to be the simplest way to catch most CSS errors.
+  // To test whether a css selector is valid, makes sure that it can be used 
+  // with the query selector function and that it can be added to a generated 
+  // document's css. 
   if (passesQuerySelector(selector) && passesCSSInsertion(selector))
     return true;
 
