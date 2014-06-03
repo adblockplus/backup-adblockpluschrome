@@ -23,37 +23,37 @@
   test("Permits entries from easy list", function()
   {
     var tests = [
-      ['rachaelrayshow.com##div[style="margin: 5px auto 0 auto; padding: 0px; color: #999999; font-size: 10px; text-align: center;"]'],
-      ['||21sexturycash.com^$third-party'],
-      ['##.advert_back_300xXXX'],
-      ['mail.google.com##.aeF > .nH > .nH[role="main"] > .aKB'],
-      ['cpu-world.com##div[style="height: 90px; padding: 3px; text-align: center"]'],
-      ['@@||sascdn.com^*/jwplayer-plugin.swf?$object-subrequest'],
-      ['##[onclick^="window.open(\'http://adultfriendfinder.com/search/"]'],
-      ['fulldls.com###table_filter + .torrent_table'],
-      ['movie2k.tl###tablemoviesindex > tbody:first-child:last-child > tr:last-child'],
-      ['movie4k.to###tablemoviesindex:last-child > tbody:first-child:last-child > tr:last-child']
+      'rachaelrayshow.com##div[style="margin: 5px auto 0 auto; padding: 0px; color: #999999; font-size: 10px; text-align: center;"]',
+      '||21sexturycash.com^$third-party',
+      '##.advert_back_300xXXX',
+      'mail.google.com##.aeF > .nH > .nH[role="main"] > .aKB',
+      'cpu-world.com##div[style="height: 90px; padding: 3px; text-align: center"]',
+      '@@||sascdn.com^*/jwplayer-plugin.swf?$object-subrequest',
+      '##[onclick^="window.open(\'http://adultfriendfinder.com/search/"]',
+      'fulldls.com###table_filter + .torrent_table',
+      'movie2k.tl###tablemoviesindex > tbody:first-child:last-child > tr:last-child',
+      'movie4k.to###tablemoviesindex:last-child > tbody:first-child:last-child > tr:last-child'
     ];
 
     for (var i = 0; i < tests.length; i++)
-      equal(validFilter(tests[i][0]), true, tests[i][0]);
+      equal(validFilter(tests[i]), true, tests[i]);
   });
 
   test("Catches CSS Errors", function()
   {
     var tests = [
-      ['##.box['],
-      ['##.box[target="'],
-      ['##.box[target="foo\''],
-      ['##.box[target=\'foo"'],
-      ['##.box[target="foo"'],
-      ['##:bogus'],
-      ['##.box {'],
-      ['##.box {target="foo"}'],
+      '##.box[',
+      '##.box[target="',
+      '##.box[target="foo\'',
+      '##.box[target=\'foo"',
+      '##.box[target="foo"',
+      '##:bogus',
+      '##.box {',
+      '##.box {target="foo"}',
     ];
 
     for (var i = 0; i < tests.length; i++)
-      equal(validFilter(tests[i][0]), false, tests[i][0]);
+      equal(validFilter(tests[i]), false, tests[i]);
   });
 
 
