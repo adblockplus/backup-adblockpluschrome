@@ -473,11 +473,13 @@ function addTypedFilter(event)
   event.preventDefault();
 
   var filterText = Filter.normalize(document.getElementById("newFilter").value);
-  document.getElementById("newFilter").value = "";
+
   if (!filterText)
     return;
 
-  if (!validFilter(filterText)) 
+  var filter = Filter.fromText(filterText);
+
+  if (!validFilter(filter)) 
   {
     $("#filterErrorWarning").css("display", "inline-block");
     $("#filterErrorWarningCss").html("<p>" + filterText + "</p>");
@@ -485,7 +487,8 @@ function addTypedFilter(event)
   }
 
   $("#filterErrorWarning").hide();
-  FilterStorage.addFilter(Filter.fromText(filterText));
+  document.getElementById("newFilter").value = "";  
+  FilterStorage.addFilter(filter);
 }
 
 // Tests for whether a CSS rule can be added to a generated document. It is 
@@ -535,12 +538,10 @@ function passesQuerySelector(css)
 function validFilter(filter) 
 {
 
-  // If there are no CSS selectors, the filter is considered valid.
-  var selectorIndex = filter.indexOf("##");
-  if (selectorIndex == -1)
-    return true;
+  var selector = filter.selector;
 
-  var selector = filter.substr(selectorIndex + 2);
+  if (!selector)
+    return true
 
   // To test whether a css selector is valid, makes sure that it can be used 
   // with the query selector function and that it can be added to a generated 

@@ -36,7 +36,8 @@
     ];
 
     for (var i = 0; i < tests.length; i++)
-      equal(validFilter(tests[i]), true, tests[i]);
+      var filter = Filter.fromText( Filter.normalize(tests[i]) );
+      equal(validFilter(filter, true, tests[i]);
   });
 
   test("Catches CSS Errors", function()
@@ -53,7 +54,8 @@
     ];
 
     for (var i = 0; i < tests.length; i++)
-      equal(validFilter(tests[i]), false, tests[i]);
+      var filter = Filter.fromText( Filter.normalize(tests[i]) );      
+      equal(validFilter(filter, false, tests[i]);
   });
 
 
