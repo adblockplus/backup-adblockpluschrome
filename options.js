@@ -498,46 +498,29 @@ function addTypedFilter(event)
 
 function passesCSSInsertion (selector) 
 {
-  var styleContent = selector + " {}";
   var doc = document.implementation.createHTMLDocument("");
   var styleElement = document.createElement("style");
 
-  styleElement.textContent = styleContent;
-
-  // Trying to add the style to a document object will test whether the 
-  // CSS selector is malformed.
   doc.body.appendChild(styleElement);
-
-  // Check if the rule has been inserted to see whether the selector was valid 
-  // or not.
-  if (styleElement.sheet.cssRules.length > 0)
-    return true;
-
-  return false;
-};
-
-// Finds whether querySelectorAll recognizes the given selector as valid. It 
-// misses several CSS selector mistakes such as misuse of brackets and 
-// quotations that rulesForCSSTest catches.
-function passesQuerySelector(css) 
-{
+  
   try 
   {
-    document.querySelector(css); 
+    // Trying to add the style to a document object will test whether the 
+    // CSS selector is malformed.    
+    styleElement.sheet.insertRule(selector + " {}");
     return true;
   }
-  catch(err) 
+  catch (e)
   {
     return false;
   }
-}
+};
 
 // Examines an adblock filter rule and if it contains a css Selector, returns 
 // whether that selector is valid. If no CSS selector is present it returns 
 // true.
 function validFilter(filter) 
 {
-
   var selector = filter.selector;
 
   if (!selector)
@@ -546,7 +529,7 @@ function validFilter(filter)
   // To test whether a css selector is valid, makes sure that it can be used 
   // with the query selector function and that it can be added to a generated 
   // document's css. 
-  if (passesQuerySelector(selector) && passesCSSInsertion(selector))
+  if (passesCSSInsertion(selector))
     return true;
 
   return false;
