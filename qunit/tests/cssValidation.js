@@ -35,9 +35,11 @@
       'movie4k.to###tablemoviesindex:last-child > tbody:first-child:last-child > tr:last-child'
     ];
 
-    for (var i = 0; i < tests.length; i++)
+    for (var i = 0; i < tests.length; i++) 
+    {
       var filter = Filter.fromText( Filter.normalize(tests[i]) );
-      equal(validFilter(filter, true, tests[i]);
+      equal(validFilter(filter, true, tests[i]));
+    }
   });
 
   test("Catches CSS Errors", function()
@@ -53,9 +55,11 @@
       '##.box {target="foo"}',
     ];
 
-    for (var i = 0; i < tests.length; i++)
+    for (var i = 0; i < tests.length; i++) 
+    {
       var filter = Filter.fromText( Filter.normalize(tests[i]) );      
-      equal(validFilter(filter, false, tests[i]);
+      equal(validFilter(filter, false, tests[i]));
+    }
   });
 
 
