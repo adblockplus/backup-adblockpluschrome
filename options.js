@@ -481,12 +481,12 @@ function addTypedFilter(event)
 
   if (!validFilter(filter)) 
   {
-    $("#filterErrorWarning").css("display", "inline-block");
-    $("#filterErrorWarningCss").html("<p>" + filterText + "</p>");
+    $("#addFilterErrorWarning").css("display", "inline-block");
+    $("#addFilterErrorWarningCss").html("<p>" + filterText + "</p>");
     return;
   }
 
-  $("#filterErrorWarning").hide();
+  $("#addFilterErrorWarning").hide();
   document.getElementById("newFilter").value = "";  
   FilterStorage.addFilter(filter);
 }
@@ -585,9 +585,13 @@ function toggleFiltersInRawFormat(event)
 // Imports filters in the raw text box
 function importRawFiltersText()
 {
-  $("#rawFilters").hide();
   var filters = document.getElementById("rawFiltersText").value.split("\n");
   var seenFilter = {__proto__: null};
+  var foundInvalidFilter = false;
+
+  // Every time it imports, it starts with an empty list of errors.
+  $("#editFilterErrorWarningCss").html("");
+
   for (var i = 0; i < filters.length; i++)
   {
     var text = Filter.normalize(filters[i]);
@@ -598,8 +602,24 @@ function importRawFiltersText()
     if (/^\[/.test(text))
       continue;
 
-    FilterStorage.addFilter(Filter.fromText(text));
+    // Don't import invalid filters
+    var filter = Filter.fromText(text);
+
+    if (!validFilter(filter)) {
+      $("#editFilterErrorWarningCss").append("<p> line " + (i+1) + ": " + text + "</p>");
+      foundInvalidFilter = true;
+      continue;
+    }    
+
+    FilterStorage.addFilter(filter);
     seenFilter[text] = true;
+  }
+
+  if (foundInvalidFilter)
+    $("#editFilterErrorWarning").css("display", "inline-block");
+  else {
+    $("#editFilterErrorWarning").hide();
+    $("#rawFilters").hide();
   }
 
   var remove = [];

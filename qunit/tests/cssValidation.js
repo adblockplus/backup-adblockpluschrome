@@ -50,9 +50,7 @@
       '##.box[target="foo\'',
       '##.box[target=\'foo"',
       '##.box[target="foo"',
-      '##:bogus',
-      '##.box {',
-      '##.box {target="foo"}',
+      '##:bogus'
     ];
 
     for (var i = 0; i < tests.length; i++) 
