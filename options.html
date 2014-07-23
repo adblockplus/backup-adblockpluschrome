@@ -186,18 +186,24 @@ button
       </div>
       <div id="customSubscriptionContainer">
         <p>
-          <span class="i18n_subscriptionSelection_title_label"></span><br />
+          <label for="customSubscriptionTitle">
+            <span class="i18n_subscriptionSelection_title_label"></span>
+          </label><br />
           <input type="text" id="customSubscriptionTitle" style="width:500px" />
         </p>
         <p>
-          <span class="i18n_subscriptionSelection_location_label"></span><br />
+          <label for="customSubscriptionLocation">
+            <span class="i18n_subscriptionSelection_location_label"></span>
+          </label><br />
           <input type="text" id="customSubscriptionLocation" style="width:500px" />
         </p>
       </div>
 
       <div id="acceptableAdsContainer">
         <input type="checkbox" id="acceptableAds" />
-        <span class="i18n_filters_acceptableAds2_label"></span>
+        <label for="acceptableAds">
+          <span class="i18n_filters_acceptableAds2_label"></span>
+        </label>
         <a id="acceptableAdsLink" href="#" target="_blank" class="i18n_filters_viewList_label"></a>
         <a id="acceptableAdsDocs" href="#" target="_blank" class="i18n_filters_readMore_label"></a>
       </div>
@@ -273,10 +279,16 @@ button
   <div id="tab-general">
     <p>
       <div id="shouldShowBlockElementMenuContainer">
-        <input type="checkbox" id="shouldShowBlockElementMenu" /><span class="i18n_show_block_element_menu"></span>
+        <input type="checkbox" id="shouldShowBlockElementMenu" />
+        <label for="shouldShowBlockElementMenu">
+          <span class="i18n_show_block_element_menu"></span>
+        </label>
       </div>
       <div id="hidePlaceholdersContainer">
-        <input type="checkbox" id="hidePlaceholders" /><span class="i18n_overlay_hideplaceholders_label"></span>
+        <input type="checkbox" id="hidePlaceholders" />
+        <label for="hidePlaceholders">
+          <span class="i18n_overlay_hideplaceholders_label"></span>
+        </label>
       </div>
     </p>
 
