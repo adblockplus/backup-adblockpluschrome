@@ -473,12 +473,68 @@ function addTypedFilter(event)
   event.preventDefault();
 
   var filterText = Filter.normalize(document.getElementById("newFilter").value);
-  document.getElementById("newFilter").value = "";
+
   if (!filterText)
     return;
 
-  FilterStorage.addFilter(Filter.fromText(filterText));
+  var filter = Filter.fromText(filterText);
+
+  if (!validFilter(filter)) 
+  {
+    $("#addFilterErrorWarning").css("display", "inline-block");
+    $("#addFilterErrorWarningCss").html("<p>" + filterText + "</p>");
+    return;
+  }
+
+  $("#addFilterErrorWarning").hide();
+  document.getElementById("newFilter").value = "";  
+  FilterStorage.addFilter(filter);
 }
+
+// Tests for whether a CSS rule can be added to a generated document. It is 
+// used to test whether a CSS selector is malformed in its use of brackets, 
+// quotations, etc, but misses several other CSS selector mistakes that 
+// passesQuerySelector catches.
+
+function passesCSSInsertion (selector) 
+{
+  var doc = document.implementation.createHTMLDocument("");
+  var styleElement = document.createElement("style");
+
+  doc.body.appendChild(styleElement);
+  
+  try 
+  {
+    // Trying to add the style to a document object will test whether the 
+    // CSS selector is malformed.    
+    styleElement.sheet.insertRule(selector + " {}");
+    return true;
+  }
+  catch (e)
+  {
+    return false;
+  }
+};
+
+// Examines an adblock filter rule and if it contains a css Selector, returns 
+// whether that selector is valid. If no CSS selector is present it returns 
+// true.
+function validFilter(filter) 
+{
+  var selector = filter.selector;
+
+  if (!selector)
+    return true
+
+  // To test whether a css selector is valid, makes sure that it can be used 
+  // with the query selector function and that it can be added to a generated 
+  // document's css. 
+  if (passesCSSInsertion(selector))
+    return true;
+
+  return false;
+}
+
 
 // Removes currently selected whitelisted domains
 function removeSelectedExcludedDomain()
@@ -529,9 +585,13 @@ function toggleFiltersInRawFormat(event)
 // Imports filters in the raw text box
 function importRawFiltersText()
 {
-  $("#rawFilters").hide();
   var filters = document.getElementById("rawFiltersText").value.split("\n");
   var seenFilter = {__proto__: null};
+  var foundInvalidFilter = false;
+
+  // Every time it imports, it starts with an empty list of errors.
+  $("#editFilterErrorWarningCss").html("");
+
   for (var i = 0; i < filters.length; i++)
   {
     var text = Filter.normalize(filters[i]);
@@ -542,8 +602,24 @@ function importRawFiltersText()
     if (/^\[/.test(text))
       continue;
 
-    FilterStorage.addFilter(Filter.fromText(text));
+    // Don't import invalid filters
+    var filter = Filter.fromText(text);
+
+    if (!validFilter(filter)) {
+      $("#editFilterErrorWarningCss").append("<p> line " + (i+1) + ": " + text + "</p>");
+      foundInvalidFilter = true;
+      continue;
+    }    
+
+    FilterStorage.addFilter(filter);
     seenFilter[text] = true;
+  }
+
+  if (foundInvalidFilter)
+    $("#editFilterErrorWarning").css("display", "inline-block");
+  else {
+    $("#editFilterErrorWarning").hide();
+    $("#rawFilters").hide();
   }
 
   var remove = [];

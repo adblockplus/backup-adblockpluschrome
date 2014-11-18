@@ -9,6 +9,9 @@
   "add_filter_button": {
     "message": "Add filter"
   },
+  "add_filter_error": {
+    "message": "Your submitted filter contained errors in the CSS selector."
+  },    
   "add_filters_msg": {
     "message": "Add filter(s)?"
   },
@@ -54,6 +57,9 @@
     "description": "Popup balloon label for blocking elements on the current page",
     "message": "Block element"
   },
+  "edit_filter_error": {
+    "message": "Your edited filters contained errors in the CSS selector."
+  },      
   "edit_filters_raw": {
     "message": "Edit filters as raw text"
   },

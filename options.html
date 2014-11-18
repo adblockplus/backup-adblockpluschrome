@@ -72,6 +72,16 @@ button
   margin-right: 10px;
 }
 
+.filterErrorWarning {
+  display: none;
+  border: 1px solid red;
+  color: red;
+  background-color: '#fdd';
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+
 .subscription
 {
   margin: 3px 0px;
@@ -232,6 +242,10 @@ button
 
   <div id="tab-userfilters">
     <p id="filter-must-follow-syntax" class="i18n_filter_must_follow_syntax"></p>
+    <div class='filterErrorWarning' id='addFilterErrorWarning'>
+      <p class='i18n_add_filter_error'></p>
+      <p id='addFilterErrorWarningCss'></p>
+    </div>
 
     <form id="customFilterForm" action="#">
     <table>
@@ -254,6 +268,10 @@ button
       <tr>
         <td>
           <div style="font-size: 90%; text-align: right"><a id="rawFiltersButton" href="#"><span class="i18n_edit_filters_raw"></span></a></div>
+          <div class='filterErrorWarning' id='editFilterErrorWarning'>
+            <p class='i18n_edit_filter_error'></p>
+            <p id='editFilterErrorWarningCss'></p>
+          </div>          
         </td>
       </tr>
       <tr id="rawFilters">
