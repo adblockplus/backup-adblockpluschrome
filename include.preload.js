@@ -26,6 +26,9 @@ var typeMap = {
   "iframe": "SUBDOCUMENT"
 };
 
+var preventFuckAdBlock = document.createElement("script");
+preventFuckAdBlock.innerHTML = "Object.defineProperty(window, 'fuckAdBlock', { value: null, writable: false, configurable: false });";
+
 function checkCollapse(element)
 {
   var tag = element.localName;
@@ -214,6 +217,7 @@ function init(document)
     if (shadow)
     {
       shadow.appendChild(style);
+      shadow.appendChild(preventFuckAdBlock);
       selectors = convertSelectorsForShadowDOM(selectors);
     }
     else
@@ -222,6 +226,7 @@ function init(document)
       // document root breaks dev tools functionality:
       // http://code.google.com/p/chromium/issues/detail?id=178109
       (document.head || document.documentElement).appendChild(style);
+      (document.head || document.documentElement).appendChild(preventFuckAdBlock);
     }
 
     var setRules = function()
