@@ -455,7 +455,28 @@
           );
 
           if (results.indexOf(false) != -1)
-            return {cancel: true};
+            var redirectUrl = "data:";
+            switch (requestType) {
+              case "IMAGE":
+                redirectUrl += "image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+                break;
+
+              case "SCRIPT":
+                redirectUrl += "text/javascript,";
+                break;
+
+              case "STYLE":
+                redirectUrl += "text/javascript,";
+                break;
+
+              default:
+                redirectUrl += "text/plain,";
+                break;
+            }
+
+            return {
+              redirectUrl: redirectUrl
+            };
         }
       }
 
